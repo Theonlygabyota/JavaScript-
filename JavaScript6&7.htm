@@ -1,0 +1,162 @@
+<html>
+<head>
+  <title>Toy Orders</title>
+  <script>
+  
+    String.prototype.format = function () {
+      var args = arguments;
+      return this.replace(/{(\d+)(:(c|f)(\d))?}/g, function (match, number) {
+        if (arguments[2] === undefined)
+          return args[number] === undefined ? '{' + number + '}' : args[number]
+        ;
+        var ch = arguments[3].charCodeAt(0);
+        var n = Number(arguments[4]);
+        if (ch == 102)
+          return Number(args[number]).toFixed(index);
+
+        return args[number].toLocaleString("en-US",{
+             style: "currency",
+             currency: "USD",
+             minimumFractionDigits: n,
+             maximumFractionDigits: n
+           });
+
+      });
+
+    };
+
+
+    function createTable(str, sep) {
+      if (sep===undefined) sep=',';
+      var s = "<table>";
+      var data = str.split("\n");
+      var aligns = ['"center"', '"right"'];
+      for (var i = 0; i < data.length; i++) {
+        var data2 = data[i].split(sep);
+        s += "<tr>";
+        for (var j = 0; j < data2.length; j++) {
+          s += "<td";
+          if (data2[j].charAt(0) == '%') {
+            var ch = data2[j].charAt(1);
+            s += " align=" + aligns[ch];
+            j++;
+          }
+          s += ">" + data2[j] + "</td>";
+        }
+        s += "</tr>";
+      }
+      return s + "</table>";
+      }
+
+
+
+      function calc() {
+
+          var text = document.getElementById("txt").value;
+          var el = document.getElementById("output");
+
+          var data = text.split(/\s+/);
+          var s = "Name,%1,Quantity,%1,Price,%1,Total Order";
+
+          var Toys = [];
+          for (var i = 0; i < data.length; i += 4) {
+
+              var toy = {};
+              employee.Toys = data[i];
+              employee.Price = data[i + 3];
+              emps.push(toy);
+
+          }
+          emps.sort(function (toy1, toy2) {
+
+          });
+          for (var i = 0; i < emps.length; i++) {
+              s += '\n' + emps[i].Name + Quantity * emps[i].Price;
+              // this is where I am attempting to mutiply quantity by price
+
+          }
+
+
+          el.innerHTML = createTable(s);
+      }
+      function processByName() {
+
+          var text = document.getElementById("txt").value;
+          var el = document.getElementById("output");
+
+          var data = text.split(/\s+/);
+          var s = "Name,%1,Quantity,%1,Price";
+
+          var Toys = [];
+          for (var i = 0; i < data.length; i += 3) {
+
+              var toy = {};
+              employee.Toys = data[i];
+              employee.Price = data[i + 2];
+              emps.push(toy);
+
+          }
+          emps.sort(function (toy1, toy2) {
+
+          });
+          for (var i = 0; i < emps.length; i++) {
+              s += '\n' + emps[i].Name + Quantity + emps[i].Price;
+
+              emps.sort(function (toy1, toy2) {
+
+                  return emp1.Name.localeCompare(toy2.Name);
+
+              });
+          }
+ 
+
+          el.innerHTML = createTable(s);
+      }
+
+      function init() {
+
+
+          var el = document.getElementById("hdg");
+          el.innerHTML = "<center><h1> Toy Orders </h1></center>";
+          var input = document.getElementById("input");
+          var s = " Enter 1 or more toys <br>" +
+              '<input type ="text" id= "txt" /><br>' +
+              '<input type = "button" value="Original" onclick= "process()" />' +
+              '<input type = "button" value="Alphabetical" onclick= "processByName()" />';
+          el = document.getElementById("input");
+          el.innerHTML = s;
+
+  
+}
+  </script>
+
+  <style>
+    
+
+    body {
+      background-color: #111;
+      color: #ffc;
+      font-family: sans-serif;
+    }
+
+    
+  </style>
+
+
+</head>
+<body onload="init()" >
+  <div id="hdg">&nbsp;</div>
+  <table style="margin-top:40px">
+    <tr>
+      <td valign="top"><div id="input"></div></td>
+      <td>&nbsp; &nbsp; </td>
+      <td>
+        <div style="width:300px; height:380px; border-left: 1px solid white; padding-left:1em" 
+            id="output"> 
+          </div>
+      </td>
+    </tr>
+  </table>
+</body>
+
+</html>
